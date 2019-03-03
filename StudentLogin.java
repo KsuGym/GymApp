@@ -70,6 +70,12 @@ public class StudentLogin extends AppCompatActivity {
                                         &&student.getSubsicibed().equals("yes"))
                                 {//For main page
 
+                                    StudentsNavigationPage.name = student.getName();
+                                    StudentsNavigationPage.email = student.getEmail();
+                                    StudentsNavigationPage.id = student.getNumber();
+                                    StudentsNavigationPage.weight = student.getWeight();
+                                    StudentsNavigationPage.height= student.getHeight();
+
                                     Toast.makeText(getApplicationContext(), "Logged in Successfully", Toast.LENGTH_LONG).show();
                                     Intent i = new Intent(StudentLogin.this,StudentsNavigationPage.class);
                                     startActivity(i);

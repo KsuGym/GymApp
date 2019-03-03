@@ -4,14 +4,13 @@ public class Students
 {
     String name, number, email, weight, height, password, subsicibed;
 
-
-    public Students(String email,String password , String name, String number, String height, String weight, String subsicribed) {
-        this.email = email;
-        this.password = password;
+    public Students(String email, String password, String name, String number, String height, String weight,String subsicribed)  {
         this.name = name;
         this.number = number;
-        this.height = height;
+        this.email = email;
         this.weight = weight;
+        this.height = height;
+        this.password = password;
         this.subsicibed = subsicribed;
     }
 

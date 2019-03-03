@@ -22,6 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class StudentSubscribe extends AppCompatActivity implements View.OnClickListener {
@@ -71,8 +73,8 @@ public class StudentSubscribe extends AppCompatActivity implements View.OnClickL
     public void onClick(View view) {
         //User object to write into my database
         student = new Students( editTextEmail.getText().toString(), editTextPassword.getText().toString(),
-        Name.getText().toString(), ID.getText().toString(),
-        Hight.getText().toString(),Weight.getText().toString(), "no");
+                Name.getText().toString(), ID.getText().toString(),
+                Hight.getText().toString(),Weight.getText().toString(), "no");
 
         //calling register method on click
         registerUser();
@@ -83,6 +85,7 @@ public class StudentSubscribe extends AppCompatActivity implements View.OnClickL
 
         //getting email and password from edit texts
         String email = editTextEmail.getText().toString().trim();
+        String email1 = editTextEmail.getText().toString();
         String name = Name.getText().toString();
         String num = ID.getText().toString();
         String hight = Hight.getText().toString();
@@ -97,7 +100,14 @@ public class StudentSubscribe extends AppCompatActivity implements View.OnClickL
         //checking if email and passwords are empty
         if (TextUtils.isEmpty(email)) {
             editTextEmail.setError("Please enter email");
-            focusView = editTextPassword;
+            focusView = editTextEmail;
+            cancel = true;
+            return;
+        }
+
+        if (!email1.matches("^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$")) {
+            editTextEmail.setError("Invalid Email Address");
+            focusView = editTextEmail;
             cancel = true;
             return;
         }
@@ -179,61 +189,40 @@ public class StudentSubscribe extends AppCompatActivity implements View.OnClickL
         progressDialog.show();
 
 
+
+
         //creating a new user
         if ( Valid(password, password1) ) {
-            firebaseAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            //display some message here
+            FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+            final DatabaseReference ref = firebaseDatabase.getReference();
+            ref.child("Students").orderByChild("number").equalTo(ID.getText().toString())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            //checking if success
-                            if (task.isSuccessful()) {
-                                //display some message here
-                                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-                                final DatabaseReference ref = firebaseDatabase.getReference();
-                                ref.child("Students").orderByChild("number").equalTo(ID.getText().toString())
-                                        .addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(DataSnapshot dataSnapshot)
-                                            {
+                        public void onDataChange(DataSnapshot dataSnapshot)
+                        {
 
-                                                if (dataSnapshot.exists()) {
-                                                    Toast.makeText(getApplicationContext(), "This Student ID already exists!", Toast.LENGTH_LONG).show();
+                            if (dataSnapshot.exists()) {
+                                Toast.makeText(getApplicationContext(), "This Student ID already exists!", Toast.LENGTH_LONG).show();
 
-                                                } else {
-
-                                                    FirebaseDatabase firebaseDatabase2 = FirebaseDatabase.getInstance();
-                                                    final DatabaseReference ref2 = firebaseDatabase2.getReference();
-                                                    ref2.child("Students").addListenerForSingleValueEvent(new ValueEventListener() {
-                                                        @Override
-                                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                                            ref2.child("Students").push().setValue(student);
-                                                            Toast.makeText(getApplicationContext(), "Request Successfully Send to Admin", Toast.LENGTH_LONG).show();
-                                                            Intent i = new Intent(StudentSubscribe.this,  StudentLogin.class);
-                                                            startActivity(i);
-                                                        }
-                                                        @Override
-                                                        public void onCancelled(DatabaseError databaseError) {
-                                                        }
-                                                    });
-                                                }
-                                            }
-                                            @Override
-                                            public void onCancelled(DatabaseError databaseError) {
-                                            }
-                                        });
                             }
+                            else
+                            {
 
-                            else {
-                                //display some message here
-                                Toast.makeText(StudentSubscribe.this, "Invalid Email or Password Error", Toast.LENGTH_LONG).show();
-                                progressDialog.dismiss();
+                                newUser();
+
                             }
-
-                            progressDialog.dismiss();
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
                         }
                     });
 
+
+
+            progressDialog.dismiss();
         }
+
 
         else {
             //display some message here
@@ -253,6 +242,48 @@ public class StudentSubscribe extends AppCompatActivity implements View.OnClickL
             return false;
     }
 
+    public void newUser()
+    {
+        //display some message here
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+        final DatabaseReference ref = firebaseDatabase.getReference();
+        ref.child("Students").orderByChild("email").equalTo(editTextEmail.getText().toString())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
+                        if (dataSnapshot.exists()) {
+                            Toast.makeText(getApplicationContext(), "This Student Email already exists!", Toast.LENGTH_LONG).show();
+
+                        } else {
+
+                            FirebaseDatabase firebaseDatabase2 = FirebaseDatabase.getInstance();
+                            final DatabaseReference ref2 = firebaseDatabase2.getReference();
+                            ref2.child("Students").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    ref2.child("Students").push().setValue(student);
+                                    Toast.makeText(getApplicationContext(), "Request Successfully Send to Admin", Toast.LENGTH_LONG).show();
+                                    Intent i = new Intent(StudentSubscribe.this, StudentLogin.class);
+                                    startActivity(i);
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+
+
+        progressDialog.dismiss();
+
+
+    }
 
 }

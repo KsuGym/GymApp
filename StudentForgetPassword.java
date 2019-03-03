@@ -10,18 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.app.ksugym.GMailSender;
+import com.example.app.ksugym.EmailClasses.GMailSender;
 import com.example.app.ksugym.R;
-import com.example.app.ksugym.WelcomePage;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
-import de.keyboardsurfer.android.widget.crouton.Crouton;
-import de.keyboardsurfer.android.widget.crouton.Style;
 
 public class StudentForgetPassword extends AppCompatActivity {
 
@@ -82,7 +78,7 @@ public class StudentForgetPassword extends AppCompatActivity {
             public void run() {
                 try {
                     GMailSender sender = new GMailSender("ksugym2019@gmail.com", "KsuGym*123");
-                    sender.sendMail("KSU Gym !",
+                    sender.sendMail("KSU Gym Subscription!",
                             text,
                             "ksugym2019@gmail.com",
                             email); //Uploader of the book recieves the email
