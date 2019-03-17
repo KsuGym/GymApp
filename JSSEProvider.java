@@ -1,6 +1,8 @@
-package com.example.app.ksugym.EmailClasses;
+package com.example.app.ksugym;
 
-
+/**
+ * Created by Vishal on 6/20/2017.
+ */
 import java.security.AccessController;
 import java.security.Provider;
 

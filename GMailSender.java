@@ -1,8 +1,6 @@
-package com.example.app.ksugym.EmailClasses;
+package com.example.app.ksugym;
 
 import android.util.Log;
-
-import com.example.app.ksugym.EmailClasses.JSSEProvider;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

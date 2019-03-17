@@ -74,8 +74,8 @@ public class AdminNavigationPage extends AppCompatActivity
             getSupportActionBar().setTitle("New Students");
             fragment = new AdminNewStudentFragment();
         } else if (id == R.id.nav_news) {
-           getSupportActionBar().setTitle("Gym News");
-            fragment = new AdminNewsFragment();
+            getSupportActionBar().setTitle("Gym News");
+             fragment = new AdminNewsFragment();
         } else if (id == R.id.nav_classes) {
             getSupportActionBar().setTitle("Gym Classes");
             fragment = new AdminClassesFragment();

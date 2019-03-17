@@ -142,8 +142,9 @@ public class AdminNewStudentFragment  extends Fragment {
                         String height = children.child("height").getValue(String.class);
                         String password = children.child("password").getValue(String.class);
                         String subscribed = children.child("subsicibed").getValue(String.class);
+                        String notification = children.child("notification").getValue(String.class);
 
-                        Students A = new Students(name, num,email,weight,height,password,subscribed);
+                        Students A = new Students(name, num,email,weight,height,password,subscribed,notification);
                         studentsList.add(A);
                     }//End of if
                 }//End of for loop

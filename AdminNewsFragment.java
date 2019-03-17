@@ -13,6 +13,7 @@ import android.widget.GridView;
 import com.example.app.ksugym.Customs.CustomAdminNewsGridView;
 import com.example.app.ksugym.News;
 import com.example.app.ksugym.R;
+import com.google.android.gms.common.util.ArrayUtils;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,6 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class AdminNewsFragment  extends Fragment
 {
@@ -89,9 +93,16 @@ public class AdminNewsFragment  extends Fragment
                     texts[i] = n.getNewsText();
                     images[i] = n.getImgUrl();
                 }
+
+                List<String> textlist = Arrays.asList(texts);
+                List<String> imageslist = Arrays.asList(images);
+                Collections.reverse(textlist);
+                Collections.reverse(imageslist);
+                String[] reversedtext = textlist.toArray(texts);
+                String[] reversedimages = imageslist.toArray(images);
+
                 custom = new CustomAdminNewsGridView(view.getContext(),texts,images);
                 newsGV.setAdapter(custom);
-                AdminNewsFragment.UpdateNewsGridView();
             }
 
             @Override
