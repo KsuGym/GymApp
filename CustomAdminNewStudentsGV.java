@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.app.ksugym.Admin.AdminNewStudentFragment;
 import com.example.app.ksugym.R;
+import com.example.app.ksugym.Students.stuList;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,6 +25,7 @@ public class CustomAdminNewStudentsGV extends BaseAdapter
     private Context mContext;
     private final String[] name;
     private final String[] number;
+    String password;
 
 
     public CustomAdminNewStudentsGV(Context mContext, String[] name, String[]number) {
@@ -86,11 +88,18 @@ public class CustomAdminNewStudentsGV extends BaseAdapter
                                         for (DataSnapshot child : snapshot.getChildren())
                                         {
                                             if(child.child("number").getValue(String.class).equals(number[x])) {
+
+                                                for(int i = 0; i < stuList.stu.length; i++){
+                                                    if(stuList.stu[i].s.number.equals(child.child("number").getValue(String.class)) ){
+                                                        password =  stuList.stu[i].pass;
+                                                        break;
+                                                    }
+                                                }
                                                 //String test = child.child("subsicibed").getValue(String.class);
                                                 child.getRef().child("subsicibed").setValue("yes");
                                                 AdminNewStudentFragment.sendEmail(AdminNewStudentFragment.nameArray[x],
                                                         AdminNewStudentFragment.numArray[x],
-                                                        AdminNewStudentFragment.passwordArray[x],AdminNewStudentFragment.emailArray[x]);
+                                                        password,AdminNewStudentFragment.emailArray[x]);
                                                 AdminNewStudentFragment.UpdateStudents();
                                             }
                                         }
@@ -133,11 +142,16 @@ public class CustomAdminNewStudentsGV extends BaseAdapter
                                         for (DataSnapshot child : snapshot.getChildren())
                                         {
                                             if(child.child("number").getValue(String.class).equals(number[x])) {
-
+                                                for(int i = 0; i < stuList.stu.length; i++){
+                                                    if(stuList.stu[i].s.number.equals(child.child("number").getValue(String.class)) ){
+                                                        password =  stuList.stu[i].pass;
+                                                        break;
+                                                    }
+                                                }
                                                 child.getRef().removeValue();
                                                 AdminNewStudentFragment.sendRejectEmail(AdminNewStudentFragment.nameArray[x],
                                                         AdminNewStudentFragment.numArray[x],
-                                                        AdminNewStudentFragment.passwordArray[x],AdminNewStudentFragment.emailArray[x]);
+                                                        password,AdminNewStudentFragment.emailArray[x]);
                                                 AdminNewStudentFragment.UpdateStudents();
                                             }
                                         }

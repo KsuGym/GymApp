@@ -47,33 +47,41 @@ public class CustomRateTrainerDialog extends Activity
             @Override
             public void onClick(View v) {
 
-                final String text = rateMsgTxt.getText().toString()+"\n Rating: "+ratingBar.getRating()+" stars"+ "\n This email was sent to you from "
-                        + StudentsNavigationPage.name+"\nID: "+StudentsNavigationPage.id+"\nEmail: "
-                        +StudentsNavigationPage.email;
-                final ProgressDialog dialog2 = new ProgressDialog(activity);
-                dialog2.setTitle("Sending Email");
-                dialog2.setMessage("Please wait");
-                dialog2.show();
-                Thread sender = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            GMailSender sender = new GMailSender("KSUGYM2019@gmail.com", "KsuGym*123");
-                            sender.sendMail("New Rate from a Student!",
-                                    text,
-                                    "KSUGYM2019@gmail.com",
-                                    "KSUGYM2019@gmail.com");
+                if (ratingBar.getRating() != 0) {
+
+                    final String text = rateMsgTxt.getText().toString() + "\n Rating: " + ratingBar.getRating() + " stars" + "\n This email was sent to you from "
+                            + StudentsNavigationPage.name + "\nID: " + StudentsNavigationPage.id + "\nEmail: "
+                            + StudentsNavigationPage.email;
+                    final ProgressDialog dialog2 = new ProgressDialog(activity);
+                    dialog2.setTitle("Sending Email");
+                    dialog2.setMessage("Please wait");
+                    dialog2.show();
+                    Thread sender = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                GMailSender sender = new GMailSender("KSUGYM2019@gmail.com", "KsuGym*123");
+                                sender.sendMail("New Rate from a Student!",
+                                        text,
+                                        "KSUGYM2019@gmail.com",
+                                        "KSUGYM2019@gmail.com");
 
 
-                            dialog2.dismiss();
-                        } catch (Exception e) {
-                            Log.e("mylog", "Error: " + e.getMessage());
+                                dialog2.dismiss();
+                            } catch (Exception e) {
+                                Log.e("mylog", "Error: " + e.getMessage());
+                            }
                         }
-                    }
-                });
-                sender.start();
-                Toast.makeText(activity,"Rate successfully sent",Toast.LENGTH_LONG).show();
-                dialog.dismiss();
+                    });
+                    sender.start();
+                    // Toast.makeText(activity,"Rate successfully sent",Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
+
+                }
+
+                else {
+                    Toast.makeText(activity,"Rate Must be greater than 0!",Toast.LENGTH_LONG).show();
+                }
 
             }
         });

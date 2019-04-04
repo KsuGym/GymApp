@@ -82,14 +82,13 @@ public class CustomAdminNewsGridView extends BaseAdapter
                             public void onClick(DialogInterface dialog, int which) {
 
                                 DatabaseReference leadersRef = FirebaseDatabase.getInstance().getReference("News");
-                                Query query = leadersRef.orderByChild("newsText").equalTo(AdminNewStudentFragment.numArray[x]);
+                                Query query = leadersRef.orderByChild("newsText").equalTo(notiTxt[x]);
                                 query.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(DataSnapshot snapshot) {
                                         for (DataSnapshot child : snapshot.getChildren())
                                         {
                                             if(child.child("newsText").getValue(String.class).equals(notiTxt[x])) {
-
                                                 child.getRef().removeValue();
                                                 AdminNewsFragment.UpdateNewsGridView();
                                             }

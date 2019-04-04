@@ -109,6 +109,15 @@ public class CustomStudentsMyClassesGridView extends BaseAdapter
             }
         });
 
+        viewholder.rateTrainerBtn = gridViewAndroid.findViewById(R.id.rateTrainer);
+        viewholder.rateTrainerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CustomRateTrainerDialog custom = new CustomRateTrainerDialog();
+                custom.showDialog(StudentMyClassesFragment.c);
+            }
+        });
+
 
         return gridViewAndroid;
     }

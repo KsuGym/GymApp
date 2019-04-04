@@ -40,4 +40,5 @@ public class ViewHolder
     public TextView myclassName;
     public TextView mytrainerName;
     public Button deleteMyClassBtn;
+    public Button rateTrainerBtn;
 }
