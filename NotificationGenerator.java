@@ -15,7 +15,7 @@ import com.example.app.ksugym.Admin.AdminSendNotificationsFragment;
 public class NotificationGenerator
 {
 
-    private static final int NOTIFICATION_ID_OPEN_ACTIVITY = 9;
+    private static final int NOTIFICATION_ID_OPEN_ACTIVITY = 7;
     public static void openActivityNotificationActivity(Context context, String text)
     {
         int NOTIFICATION_ID = 234;
@@ -25,7 +25,7 @@ public class NotificationGenerator
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
 
-            String CHANNEL_ID = "my_channel_01";
+            String CHANNEL_ID = "7";
             CharSequence name = "my_channel";
             String Description = "This is my channel";
             int importance = NotificationManager.IMPORTANCE_HIGH;
@@ -42,7 +42,9 @@ public class NotificationGenerator
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID)
                     .setSmallIcon(R.mipmap.ic_launcher)
                     .setContentTitle("New Admin Notification")
-                    .setContentText(text);
+                    .setContentText(text)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setVisibility(7);
 
             Intent resultIntent = new Intent(context, WelcomePage.class);
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);

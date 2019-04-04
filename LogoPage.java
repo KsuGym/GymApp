@@ -1,5 +1,6 @@
 package com.example.app.ksugym;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
@@ -16,6 +17,7 @@ public class LogoPage extends AppCompatActivity {
 
     private int TIME_OUT = 3000; //Time to launch the another activity (4 seconds)
 
+    public static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,7 @@ public class LogoPage extends AppCompatActivity {
         setContentView(R.layout.activity_logo_page);
 
 
+        context = getApplicationContext();
 
 
 
